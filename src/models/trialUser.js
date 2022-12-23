@@ -16,7 +16,7 @@ const trialUserSchema = new mongoose.Schema({
     type: Date,
     default: function () {
       const now = Date.now();
-      return new Date(now + 7 * 24 * 60 * 60 * 1000);
+      return new Date(now + 14 * 24 * 60 * 60 * 1000);
     },
   },
 });

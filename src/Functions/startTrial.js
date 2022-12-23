@@ -21,7 +21,10 @@ module.exports = {
 
       await interaction.member.roles.add(process.env.TRIAL_ID);
       return await interaction
-        .reply({ content: "Congrats! You have successfully activated your free trial duration.", ephemeral: true })
+        .reply({
+          content: `Congrats! You have successfully activated your free trial duration. The duration period ends at`,
+          ephemeral: true,
+        })
         .catch((err) => {});
     } catch (err) {
       await interaction.reply({ content: "something went wrong, contact server`s administration.", ephemeral: true }).catch((err) => {});

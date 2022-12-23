@@ -46,11 +46,11 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
-const task = cron.schedule("* * * * *", async () => {
+const task = cron.schedule("0 * * * *", async () => {
   const expiredDocuments = await getExpired.run();
   if (!expiredDocuments) return;
 
-  const guild = client.guilds.cache.get(process.env.CLIENT_ID);
+  const guild = client.guilds.cache.get(process.env.GUILD_ID);
   for (const document of expiredDocuments) {
     await endTrial.run(guild, document);
   }
