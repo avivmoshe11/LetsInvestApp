@@ -3,8 +3,10 @@ require("./Functions/errorHandlers");
 const { loadCommands } = require("./Handlers/commandsHandler");
 const { Client, GatewayIntentBits, Partials, Collection } = require("discord.js");
 const { mongoose } = require("mongoose");
-const { TrialUser } = require("./models/trialUser");
+const cron = require("node-cron");
 const startTrial = require("./Functions/startTrial");
+const getExpired = require("./Functions/getExpired");
+const endTrial = require("./Functions/endTrial");
 
 const { Guilds, GuildMembers, GuildMessages, MessageContent } = GatewayIntentBits;
 const { User, Message, GuildMember, ThreadMember } = Partials;
@@ -44,9 +46,18 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
+const task = cron.schedule("* * * * *", async () => {
+  const expiredDocuments = await getExpired.run();
+  if (!expiredDocuments) return;
+
+  const guild = client.guilds.cache.get(process.env.CLIENT_ID);
+  for (const document of expiredDocuments) {
+    await endTrial.run(guild, document);
+  }
+});
+
+task.start();
+
 client.login(process.env.TOKEN).then(async () => {
   loadCommands(client);
-  // const trialUser = await new TrialUser({
-  //   userId: "abc",
-  // }).save();
 });
