@@ -5,7 +5,7 @@ module.exports = {
   description: "getExpired",
   run: async () => {
     try {
-      const expiredDocuments = await TrialUser.find({ activeTrial: true, expireAt: { $gte: Date.now() } });
+      const expiredDocuments = await TrialUser.find({ activeTrial: true, expireAt: { $lte: Date.now() } });
       return expiredDocuments;
     } catch (err) {
       console.log(err);
