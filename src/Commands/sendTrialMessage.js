@@ -1,7 +1,6 @@
 const {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
-  CommandInteraction,
   EmbedBuilder,
   PermissionFlagsBits,
   ActionRowBuilder,
